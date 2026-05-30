@@ -20,3 +20,13 @@ Install Postman - Create a workspace > create collection and Test your routes
 Explore routing and use of ?, +, () etc
 Explore use of regex in routes
 Dynamic routes, reading queries, reading params etc
+
+Play with multiple route handlers
+next()
+Next function and errors along with res.send()
+app.use("/route, rH, rH2)
+How express JS basically handles requests behind the scenes
+Know the difference between app.use and app.all
+Write a dummy auth middleware for admin
+Write a dummy auth middleware for user except /user/login
+Error handling using (wildcard) app.use("/", (err, req, res, next) => .....)
