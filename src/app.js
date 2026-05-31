@@ -1,33 +1,29 @@
 const express = require('express');
 const app = express();
+const connectDB = require('./config/database');
+const User = require('./models/user');
 
-const { adminAuth, userAuth } = require('./middlewares/auth');
 
-app.use("/getUserData", (req, res) => {
-    throw new Error("kjhkjjkh");
-}),
-
-app.use( "/", (err, req, res, next) => {
-    if(err){
-        res.status(500).send('Something broke!');
-    }
-
-}),
-
-app.use("/admin", adminAuth);
-
-app.use("/admin", (req, res) => {
-    res.send("User data for admin");
+app.post("/users", async (req, res) => {
+const userDetails = new User({
+    firstName: "Akash",
+    lastName: "Kumar",
+    email: "akshay@kumar.com",
+    password: "123456",
+    gender: "Male",
+});
+try {
+    await userDetails.save();
+    res.status(201).json(userDetails);
+    }catch (error) {
+    res.status(400).json({ message: error.message }); 
+}  
+})
+connectDB().then(() => {   
+    app.listen(7777, () => {
+        console.log('Server is running on port 3000');
+      });
+}).catch((error) => {
+    console.error("Failed to connect to MongoDB:", error);
 });
 
-app.get("/admin/getDashboardData", (req, res) => {
-    res.send("Dashboard data for admin");
-});
-
-app.get("/user", userAuth, (req, res) => {
-    res.send("User data for user");
-});
-
-app.listen(7777, () => {
-  console.log('Server is running on port 3000');
-});

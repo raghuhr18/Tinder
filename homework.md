@@ -30,3 +30,14 @@ Know the difference between app.use and app.all
 Write a dummy auth middleware for admin
 Write a dummy auth middleware for user except /user/login
 Error handling using (wildcard) app.use("/", (err, req, res, next) => .....)
+
+
+Create a free cluster on Official webside MongoDB Atlas
+Get the connection string from there - just cpopy it
+Install the mongoose library in the project
+Connect with the mongodb database, use /devTinder at the end of the url, Since the connection string is of the cluster...
+Call the connectDB function and connect to the database before starting application on port 7777
+Crete a userSchema inside the models > user.js file and create a User model and export it
+Create POST/ signup API to add data to database
+Psuh some documents using API calls from postman
+Error handling using try, catch
