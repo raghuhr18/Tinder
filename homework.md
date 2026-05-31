@@ -41,3 +41,15 @@ Crete a userSchema inside the models > user.js file and create a User model and 
 Create POST/ signup API to add data to database
 Psuh some documents using API calls from postman
 Error handling using try, catch
+
+
+Go through the differences between JSON and Javascript object
+Add the app.use(express.json()) midddleware which is given by express.js to convert json to JS object
+Make the /signup API dynamic to receive the data from the end user
+Create - API - get all the users(feed API)
+Crete an api to get the user from the request Email (pass the email in Postman in the request body)
+Create a API for deleting the user via ID, by taking the id from the request params
+Difference between PATCH and PUT methods
+Tryout the API to update the user
+EXplore the jmongoose documentation for model methods
+Create a API to update the user with emailID
