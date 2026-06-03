@@ -16,6 +16,21 @@ try {
 }  
 }
 )
+app.patch("/user", async (req, res) => {
+    const userId = req.body.userId;
+    const data = req.body;
+    try {
+        const updatedUser = await User.findByIdAndUpdate(_id = userId, data, {
+            runValidators: true
+        });
+        if (!updatedUser) {
+            res.status(404).json({ message: "No user found with the given id" });
+        } else {
+            res.status(200).json(updatedUser);
+        }
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+}})
 
 app.get("/feed", async (req, res) => {
     // const name = req.body.email;

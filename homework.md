@@ -53,3 +53,8 @@ Difference between PATCH and PUT methods
 Tryout the API to update the user
 EXplore the jmongoose documentation for model methods
 Create a API to update the user with emailID
+
+Added the default validations in schema - required, trim, unique, min, max, default, photoURL, lowercase, default
+Created a custom validator function for the gender
+Improve the dB schema - put all appropriate validations on each field in Schema
+Add timestamps to the DB schema
