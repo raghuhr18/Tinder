@@ -65,3 +65,11 @@ Scenario : since userId should not be updated, get the userId via url(params) in
 Install and Explore validator function
 Use validator functions for the Email, Password etc
 NOTE: NEVER TRUST THE request.body
+
+The Previous validations were for the updating the user (PATCH) request
+Now add the Signup validations.
+    - Create folder utils and a file called validation.js inside it..
+    - import the validaor inside it and add the validations
+Scenario : Passwords should be saved with encryption in the database
+install bcrypt npm package
+import it in app.js - add bcrypt.hash keeping the salts as 10 - pass it in the request payload(separately)- to save the encypted passwords
