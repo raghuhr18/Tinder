@@ -58,3 +58,10 @@ Added the default validations in schema - required, trim, unique, min, max, defa
 Created a custom validator function for the gender
 Improve the dB schema - put all appropriate validations on each field in Schema
 Add timestamps to the DB schema
+Add a custom validation function to check whether only required fields are allowed for the modification...
+DATA SANITIZATION : API level validation
+Scenario : sills can be added in 100's - to fix add the condition to set tme max length....
+Scenario : since userId should not be updated, get the userId via url(params) instead from the request body - so that updating the userId should not be allowed.
+Install and Explore validator function
+Use validator functions for the Email, Password etc
+NOTE: NEVER TRUST THE request.body
