@@ -73,3 +73,11 @@ Now add the Signup validations.
 Scenario : Passwords should be saved with encryption in the database
 install bcrypt npm package
 import it in app.js - add bcrypt.hash keeping the salts as 10 - pass it in the request payload(separately)- to save the encypted passwords
+------IMPORTANT-----
+Install jsonwebtoken
+While login create a jwt by passing payload(userid - in our case), secretOrPrivateKey.... and send that as a cookie
+    var token = await jwt.sign({ _id : userDetails._id }, "password@112233");
+    res.cookie("token", token);
+When the /profile is accessed after the login - use verify method to verify the token and secretOrPrivateKey and get the payload back(userid in our case)
+Find the user by using findUserById
+
