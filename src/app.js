@@ -6,7 +6,7 @@ const { validateSignUpData } = require('./utils/validation');
 const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
-
+const { userAuth } = require('./middlewares/auth');
 
 app.use(express.json());
 app.use(cookieParser());
@@ -28,14 +28,16 @@ app.post("/signup", async (req, res) => {
 app.post("/login", async(req, res) => {
     try {
         const {email, password } = req.body
-        const userDetails = await User.findOne({email});
+        const userDetails = await User.findOne({email}); 
         if(!userDetails){
             throw new Error("Invalid email or password");
         }
-        const isPasswordMatch = await bcrypt.compare(password, userDetails.password);
+        const isPasswordMatch = await userDetails.verifyPassword(password);
         if (isPasswordMatch) {
-            var token = await jwt.sign({ _id : userDetails._id }, "password@112233");
-            res.cookie("token", token);
+            var token = await userDetails.getJWT();
+            res.cookie("token", token), {
+                expires: new Date(Date.now() + 3600000), httpOnly: true
+            };
             res.status(200).json({ message: "Login successful" });
         } else {
             res.status(400).json({ message: "Invalid email or password" });
@@ -45,24 +47,17 @@ app.post("/login", async(req, res) => {
     }
 })
 
-app.get("/profile", async (req, res) => {
+app.get("/profile", userAuth, async (req, res) => {
     try{
-        const cookie = req.cookies;
-        const { token } = cookie;
-            if (token) {
-                const decodedMessage = await jwt.verify(token, "password@112233")
-                const user = await User.findById(decodedMessage._id);
-                res.status(200).send(user);
-            } else {
-                res.status(401).json({ message: "Unauthorized" });
-            }
+        const user = req.user;
+        res.status(200).send(user);
     }
     catch (error) {
         res.status(400).json({ message: error.message });
     }
 })
 
-app.patch("/user/:userId", async (req, res) => {
+app.patch("/user/:userId", userAuth, async (req, res) => {
     const userId = req.params.userId
     const data = req.body;
     try {
@@ -87,7 +82,7 @@ app.patch("/user/:userId", async (req, res) => {
         res.status(400).send({ message: error.message });
 }})
 
-app.get("/feed", async (req, res) => {
+app.get("/feed", userAuth, async (req, res) => {
     // const name = req.body.email;
     try {
         const users = await User.find({ })
@@ -101,7 +96,7 @@ app.get("/feed", async (req, res) => {
     }
 })
 
-app.delete("/delete/:id", async (req, res) => {
+app.delete("/delete/:id", userAuth, async (req, res) => {
     const id = req.params.id;
     try {
         const deletedUser = await User.findByIdAndDelete(id);
@@ -115,15 +110,20 @@ app.delete("/delete/:id", async (req, res) => {
     }
 })
 
-app.use("/user", async (req, res) => {
-    const emailId = req.body.email;
-    const userDetails = await User.findOne({ email : emailId }) 
-        if (userDetails.length === 0) {
-            res.status(404).json({ message: "No user found with the given email" });
-        } else {
-            res.status(200).json(userDetails);
-        }
-    });
+app.use("/user", userAuth, async (req, res) => {
+const emailId = req.body.email;
+const userDetails = await User.findOne({ email : emailId }) 
+    if (userDetails.length === 0) {
+        res.status(404).json({ message: "No user found with the given email" });
+    } else {
+        res.status(200).json(userDetails);
+    }
+});
+
+app.post("/sendConnectionRequest", userAuth, async (req, res) => {
+    const user = req.user
+    res.status(200).send(user.firstName + "  " + "sent you a connection request" );
+})
 
 
 connectDB().then(() => {   

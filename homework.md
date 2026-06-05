@@ -80,4 +80,9 @@ While login create a jwt by passing payload(userid - in our case), secretOrPriva
     res.cookie("token", token);
 When the /profile is accessed after the login - use verify method to verify the token and secretOrPrivateKey and get the payload back(userid in our case)
 Find the user by using findUserById
-
+Create a userAuth middleware
+Add the userAuth middleware in /profile API and new sendConnectionRequest API( create new API - sendConnectionRequest )
+Set the expiry of JWT token and the cookie for 8 days by adding {expiresIn :'1d'}
+Also add the cookie expiration time.....
+Create userSchema method to getJWT
+Create userSchema method to verifyPassword(password)

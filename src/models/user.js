@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const validate = require('validator');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const userSchema = new Schema({
     firstName: {
@@ -54,8 +56,20 @@ const userSchema = new Schema({
         type: String,
         default: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
     },
-}, { timestamps: true });
+}, { timestamps: true });   
 
+userSchema.methods.getJWT = async function() {
+    const userDetails = this;
+    const token = await jwt.sign({ _id : userDetails._id }, "password@112233", { expiresIn: "1h" });
+    return token;
+}
+
+userSchema.methods.verifyPassword = async function(password) {
+    const userDetails = this;
+    const hashedPassword = userDetails.password;
+    const isMatch = await bcrypt.compare(password, hashedPassword);
+    return isMatch;
+}
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
