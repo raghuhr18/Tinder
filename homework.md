@@ -86,3 +86,13 @@ Set the expiry of JWT token and the cookie for 8 days by adding {expiresIn :'1d'
 Also add the cookie expiration time.....
 Create userSchema method to getJWT
 Create userSchema method to verifyPassword(password)
+
+Explore tinder API's
+Create a list of API's you can think of in DevTinder
+Group multiple routes under respective groups
+Read documentation for express routes
+Creates routes folder for managing auth, profile amd request routes
+Create authRouter, profileRouter and requestRouter
+import these routes in app.js
+
+
