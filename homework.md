@@ -93,6 +93,8 @@ Group multiple routes under respective groups
 Read documentation for express routes
 Creates routes folder for managing auth, profile amd request routes
 Create authRouter, profileRouter and requestRouter
-import these routes in app.js
+Import these fields in app.js 
+Create POST /logout API
+Create PATCH /profile/edit
 
 
