@@ -97,4 +97,15 @@ Import these fields in app.js
 Create POST /logout API
 Create PATCH /profile/edit
 
+Create connection request schema, 
+Send Connection Request API
+Proper validation of Data 
+Think about All corner cases and Handle them
+Read more about $or query 
+ref: https://www.mongodb.com/docs/manual/reference/mql/query-predicates/logical/
+schema.pre("save") function
+Read more about indexes..
+Why do we need indexes?
+What is the advantages and disadvantages of creating indexes
+ref: https://www.mongodb.com/docs/manual/core/indexes/index-types/index-compound/
 
