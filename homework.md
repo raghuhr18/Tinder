@@ -109,3 +109,9 @@ Why do we need indexes?
 What is the advantages and disadvantages of creating indexes
 ref: https://www.mongodb.com/docs/manual/core/indexes/index-types/index-compound/
 
+Write the code with proper validation - /request/review/:status/:userId
+Thought process : GET and POST APIs
+The best advice - await ....connection.save() - should be the 2nd last line 
+Use ref: "User" and populate to create a relation between the two - here it is User and ConnectionRequest
+Create GET /user/requests/received with all the checks
+Create GET /user/connections API with all the checks
