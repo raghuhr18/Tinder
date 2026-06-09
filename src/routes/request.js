@@ -12,7 +12,6 @@ requestRouter.post("/request/send/:status/:toUserId",
             const fromUserId = req.user._id;
             const toUserId = req.params.toUserId;
             const status = req.params.status;
-
             const validStatuses = ["ignored", "interested"];
             if(!validStatuses.includes(status)){
                 return res.status(400).json({
@@ -31,6 +30,7 @@ requestRouter.post("/request/send/:status/:toUserId",
                     message: "User not found"
                 })
             }
+
             const existingRequest = await ConnectionRequest.findOne({
                $or: [
                     { fromUserId, toUserId },
@@ -42,6 +42,9 @@ requestRouter.post("/request/send/:status/:toUserId",
                     message: "Connection request already exists"
                 })
             }
+            const fromUserName = req.user.firstName;
+            const toUserName = toUser.firstName;
+
             const connectionRequest = new ConnectionRequest({
                 fromUserId,
                 toUserId,
@@ -50,7 +53,7 @@ requestRouter.post("/request/send/:status/:toUserId",
             const data = await connectionRequest.save();
             res.json({
                 success: true,
-                message: "Connection request sent successfully",
+                message: `${fromUserName} is ${status} in ${toUserName}`,
                 data
             })
         }catch (error) {

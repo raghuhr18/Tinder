@@ -115,3 +115,13 @@ The best advice - await ....connection.save() - should be the 2nd last line
 Use ref: "User" and populate to create a relation between the two - here it is User and ConnectionRequest
 Create GET /user/requests/received with all the checks
 Create GET /user/connections API with all the checks
+
+Logic for GET /feed API
+Explore the $nin, $and, $ne and othe r quer operators
+Pagination
+    /feed?page=1&limit=10 - This gives 1-10
+    /feed?page=2&limit=10 - This gives 11-20
+    /feed?page=3?limit?10 - This gives 21-30
+.skip() and .limit()
+    skip = (page-1)*limit
+Add the condition for limiting the number of users
