@@ -4,7 +4,7 @@ const authRouter = express.Router();
 const bcrypt = require('bcrypt');
 
 const User = require('../models/user');
-const { userAuth } = require('../middlewares/auth');
+
 
 authRouter.post("/signup", async (req, res) => {
     try {
@@ -33,7 +33,7 @@ authRouter.post("/login", async(req, res) => {
             res.cookie("token", token, {
                 expires: new Date(Date.now() + 3600000), httpOnly: true
             });
-            res.status(200).json({ message: "Login successful" });
+            res.status(200).json({  userDetails, message: "Login successful" });
         } else {
             res.status(400).json({ message: "Invalid email or password" });
         }
