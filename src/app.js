@@ -1,16 +1,19 @@
 const express = require('express');
 const app = express();
 const connectDB = require('./config/database');
-const User = require('./models/user');
 const cookieParser = require('cookie-parser');
-const { userAuth } = require('./middlewares/auth');
-const cors = require('cors')
+const cors = require('cors');
 
-
-app.use(cors({
+const corsOptions = {
     origin: "http://localhost:5173",
-    credentials: true
-}));
+    credentials: true,
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
+app.options("/{*path}", cors(corsOptions));
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -24,11 +27,10 @@ app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
 
-connectDB().then(() => {   
+connectDB().then(() => {
     app.listen(7777, () => {
-        console.log('Server is running on port 3000');
-      });
+        console.log('Server is running on port 7777');
+    });
 }).catch((error) => {
     console.error("Failed to connect to MongoDB:", error);
 });
-
