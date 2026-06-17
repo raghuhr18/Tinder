@@ -16,7 +16,7 @@ userRouter.get("/user/requests/received", userAuth, async (req, res) => {
         const connectionRequests = await connectionRequestModel.find({
             toUserId: userId,
             status: "interested"
-        }).populate(USER_SAFE_DATA);
+        }).populate("fromUserId", USER_SAFE_DATA); // ✅ fixed
             res.json({
             success: true,
             message: "Connection requests fetched successfully",
@@ -38,7 +38,8 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
                 { fromUserId: userId, status: "accepted" },
                 { toUserId: userId, status: "accepted" }
             ]
-        }).populate(USER_SAFE_DATA);
+        }).populate("fromUserId", "firstName lastName photoURL about skills")
+        .populate("toUserId", "firstName lastName photoURL about skills")
         const formattedConnections = connections.map(connection => {
             if(connection.fromUserId._id.toString() === userId.toString()) {
                 return connection.toUserId;
@@ -47,9 +48,10 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
         res.json({
             success: true,
             message: "Connections fetched successfully",
-            data: connections
+            data: formattedConnections
         })
     }catch (error) {
+        console.log("FULL ERROR:", error); // add this
         res.status(400).json({
             message: "Failed to fetch connections",
             error: error.message
